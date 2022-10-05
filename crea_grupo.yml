@@ -1,0 +1,8 @@
+---
+
+- name: Grupos soporte
+  ansible.builtin.group:
+    name: soporte
+    state: present
+    gid: 1001
+

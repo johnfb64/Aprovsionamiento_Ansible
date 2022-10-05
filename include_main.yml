@@ -1,0 +1,14 @@
+---
+
+- hosts: test
+  remote_user: root
+  become: yes
+  tasks:
+    - ansible.builtin.import_tasks: crea_grupo.yml
+
+- hosts: test
+  remote_user: root
+  become: yes
+  tasks:
+    - ansible.builtin.import_tasks: crea_usuarios.yml
+

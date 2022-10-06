@@ -27,17 +27,4 @@
     #Loop es un bucle, users es moudlo de user_lists.yml
     loop: "{{ users }}"
 
-  - name: backup de sudoers
-    ansible.builtin.copy:
-      src: /etc/sudoers
-      dest: /etc/sudoers_{{ansible_date_time.date}}.bck
-      #Esta parte indica si el archivo remoto esta presente
-      remote_src: yes
-      mode: 0440
-
-  - name: Sincroniza sudoers
-    ansible.builtin.copy:
-      src: /root/Playbooks/files/sudoers
-      dest: /etc/sudoers
-
 

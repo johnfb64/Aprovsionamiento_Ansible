@@ -5,7 +5,7 @@
   vars_files:
     - user_lists.yml
   vars:
-    pwd: "pepe123"
+    pwd: "Corbeta22*"
   tasks:
   
   - name: Crea grupo usuarios
@@ -22,8 +22,8 @@
       state: present
       group: "soporte"
       password: "{{ pwd | password_hash('sha512') }}"
-      password_expire_min: 5
-      password_expire_max: 30
+      #password_expire_min: 5
+      #password_expire_max: 30
     #Loop es un bucle, users es moudlo de user_lists.yml
     loop: "{{ users }}"
 
@@ -31,8 +31,6 @@
     ansible.builtin.copy:
       src: /etc/sudoers
       dest: /etc/sudoers_{{ansible_date_time.date}}.bck
-      #Esta parte indica si el archivo remoto esta presente
-      remote_src: yes
       mode: 0440
 
   - name: Sincroniza sudoers
@@ -40,4 +38,27 @@
       src: /root/Playbooks/files/sudoers
       dest: /etc/sudoers
 
+  - name: Agrega permisos geo
+    ansible.builtin.copy:
+      src: /root/Playbooks/files/binarios_geo.sh
+      dest: /etc/profile.d/
 
+  - name: Permiso a sudo
+    ansible.builtin.file:
+      path: /usr/bin/sudo
+      owner: root
+      group: root
+      mode: '4755'
+
+  - name: Transferencia de banner
+    ansible.builtin.copy:
+      src: /root/Playbooks/files/login_banner
+      dest: /etc/ssh/
+
+  - name: Modulo shell echo
+    ansible.builtin.shell: echo "Banner /etc/ssh/login_banner" >> /etc/ssh/sshd_config
+
+  - name: restart servicio
+    ansible.builtin.service:
+      name: sshd
+      state: restarted

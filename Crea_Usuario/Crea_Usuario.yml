@@ -1,0 +1,23 @@
+---
+- name: Aprovicionamiento Servidor
+  become: yes
+  hosts: test
+  #Esta es la ruta del archivo con la lista
+  vars_files:
+    - user_lists.yml
+  vars:
+    pwd: "Contrasena22*"
+  tasks:
+  
+  - name: Crea usuarios
+    ansible.builtin.user:
+      #se utiliza la palabra clave "item" con "name" del user_list.yml
+      name: "{{ item.name }}"
+      comment: "{{ item.comment }}"
+      state: present
+      group: "{{ item.group }}"
+      password: "{{ pwd | password_hash('sha512') }}"
+      #password_expire_min: 5
+      #password_expire_max: 30
+    #Loop es un bucle, users es moudlo de user_lists.yml
+    loop: "{{ users }}"

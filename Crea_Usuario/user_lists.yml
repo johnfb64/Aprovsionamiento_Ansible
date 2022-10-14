@@ -1,0 +1,4 @@
+---
+users:
+  - {name: 'diana', comment: 'La que mas he querido', group: 'soporte'}
+  - {name: 'elvira', comment: 'La que estaba mas linda', group: 'soporte'}

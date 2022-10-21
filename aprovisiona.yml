@@ -5,26 +5,28 @@
   vars_files:
     - user_lists.yml
   vars:
-    pwd: "Corbeta22*"
+    pwd: "Ponga_la_pwd"
   tasks:
-  
+
   - name: Crea grupo usuarios
     ansible.builtin.group:
       name: soporte
       state: present
       gid: 1001
-    
+
   - name: Crea usuarios
     ansible.builtin.user:
-      #se utiliza la palabra clave "item" con "name" del user_list.yml
       name: "{{ item.name }}"
-      comment: "Usuario de Soporte"
+      comment: "{{ item.comment  }}"
       state: present
-      group: "soporte"
+      group: "{{ item.group }}"
       password: "{{ pwd | password_hash('sha512') }}"
-      #password_expire_min: 5
-      #password_expire_max: 30
-    #Loop es un bucle, users es moudlo de user_lists.yml
+    loop: "{{ users }}"
+  #seccion con chage
+  - name: ejecuta shell chage
+    ansible.builtin.shell: chage -d0 "{{ item.name }}"
+    args:
+      executable: /bin/bash
     loop: "{{ users }}"
 
   - name: backup de sudoers

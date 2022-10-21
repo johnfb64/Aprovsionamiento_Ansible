@@ -1,3 +1,4 @@
+---
 - name: Aprovicionamiento Servidor
   become: yes
   hosts: test

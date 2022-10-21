@@ -1,0 +1,27 @@
+---
+- name: Creacion de usuarios
+  become: yes
+  hosts: 127.0.0.1
+  #Esta es la ruta del archivo con la lista
+  vars_files:
+    - user_lists.yml
+  vars:
+    pwd: "Corbeta22*"
+  tasks:
+
+  - name: Crea usuarios
+    ansible.builtin.user:
+      name: "{{ item.name }}"
+      comment: "{{ item.comment }}"
+      state: present
+      group: "{{ item.group }}"
+      password: "{{ pwd | password_hash('sha512') }}"
+      #password_expire_min: 5
+      #password_expire_max: 30
+    loop: "{{ users }}"
+
+  - name: ejecuta shell chage
+    ansible.builtin.shell: chage -d0 "{{ item.name }}"
+    args:
+      executable: /bin/bash
+    loop: "{{ users }}"

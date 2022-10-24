@@ -1,0 +1,14 @@
+---
+- name: Eliminacion de usuario
+  become: yes
+  hosts: ip-o-hosts
+  #Esta es la ruta del archivo con la lista
+  vars_files:
+    - users_list.yml
+  tasks:
+  - name: Elimina usuarios
+    ansible.builtin.user:
+      name: "{{ item.name }}"
+      state: absent
+      remove: yes
+    loop: "{{ users }}"

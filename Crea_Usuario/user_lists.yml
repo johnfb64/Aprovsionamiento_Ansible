@@ -1,0 +1,3 @@
+---
+users:
+  - {name: 'test', comment: 'Usuario test', group: 'test'}

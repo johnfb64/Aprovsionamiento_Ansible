@@ -1,3 +1,3 @@
 ---
 users:
-  - {name: 'test', comment: 'Usuario test', group: 'test'}
+  - {name: 'pepe', comment: 'Usuario dumy', group: 'test'}

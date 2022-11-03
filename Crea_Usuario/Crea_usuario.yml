@@ -1,7 +1,7 @@
 ---
 - name: Creacion de usuarios
   become: yes
-  hosts: 127.0.0.1
+  hosts: test
   #Esta es la ruta del archivo con la lista
   vars_files:
     - user_lists.yml

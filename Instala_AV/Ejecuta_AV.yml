@@ -1,0 +1,31 @@
+---
+ - name: Instalacion de AV
+   become: yes
+   hosts: av
+   tasks:
+
+   - name: Pasa script
+     ansible.builtin.copy:
+      src: /root/Playbooks/Playbooks_Files/Ejecuta_AV/AgentDeploymentScript.sh
+      dest: /root
+
+   - name: Permisos a script
+     ansible.builtin.file:
+       path: /root/AgentDeploymentScript.sh
+       owner: root
+       group: root
+       mode: '1777'
+
+   - name: Instalacion de AV por script
+     ansible.builtin.shell:
+       cmd: sh /root/AgentDeploymentScript.sh
+
+   - name: Elimina archivo script
+     ansible.builtin.file:
+       path: /root/AgentDeploymentScript.sh
+       state: absent
+
+   - name: Ejecuta comando validacion servicio
+     ansible.builtin.shell: systemctl status ds_agent.service
+     args:
+       executable: /bin/bash
